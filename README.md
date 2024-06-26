@@ -154,8 +154,6 @@ customized up to the topology that is used.
 python -m human_motion_prediction.train "config/CISTGCN/local.yaml"
 ```
 
-TODO for future work-readme: Maybe write some hyperparameters and how they work could be included in another readme
-because this is hard-related to the topology.
 
 ### Robustness test
 
