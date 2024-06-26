@@ -1,0 +1,106 @@
+architecture_config:
+  model: CISTGCN_0
+  model_params:
+    input_n: 10
+    joints: 22
+    output_n: 25
+    n_txcnn_layers: 4
+    txc_kernel_size: 3
+    reduction: 8
+    hidden_dim: 64
+    input_gcn:
+      model_complexity:
+        - 32
+        - 32
+        - 32
+        - 32
+      interpretable:
+        - true
+        - true
+        - true
+        - true
+        - true
+    output_gcn:
+      model_complexity:
+        - 3
+      interpretable:
+        - true
+    clipping: 15
+learning_config:
+  WarmUp: 100
+  normalize: false
+  dropout: 0.1
+  weight_decay: 1e-4
+  epochs: 50
+  lr: 0.01
+  #  max_norm: 3
+  scheduler:
+    type: StepLR
+    params:
+      step_size: 3000
+      gamma: 0.8
+  loss:
+    weights: ""
+    type: "mpjpe"
+  augmentations:
+    random_scale:
+      x:
+        - 0.95
+        - 1.05
+      y:
+        - 0.90
+        - 1.10
+      z:
+        - 0.95
+        - 1.05
+    random_noise: ""
+    random_flip:
+      x: true
+      y: ""
+      z: true
+    random_rotation:
+      x:
+        - -5
+        - 5
+      y:
+        - -180
+        - 180
+      z:
+        - -5
+        - 5
+    random_translation:
+      x:
+        - -0.10
+        - 0.10
+      y:
+        - -0.10
+        - 0.10
+      z:
+        - -0.10
+        - 0.10
+environment_config:
+  actions: all
+  protocol: "pro1" # 'pro1: common action split;  0-6: single action split; pro3: unseen action split'
+  get_all_samples: 0
+  is_norm: true
+  job: 0
+  sample_rate: 2
+  return_all_joints: true
+  save_grads: false
+  test_batch: 128
+  train_batch: 128
+general_config:
+  data_dir: ../data/h3.6m/
+  experiment_name: benchmark
+  load_model_path: ''
+  log_path: logdir/
+  model_name_rel_path: CISTGCN
+  save_all_intermediate_models: false
+  save_models: true
+  tensorboard:
+    num_mesh: 4
+meta_config:
+  comment: Adding Benchmarking for H3.6M, AMASS, CMU and 3DPW, ExPI on our new architecture
+  project: Attention
+  task: 3d motion prediction on 18, 22 and 25 joints testing on 18 and 32 joints
+  version: 0.1.3

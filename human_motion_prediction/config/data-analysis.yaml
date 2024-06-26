@@ -1,0 +1,513 @@
+architecture_config:
+  model: CISTGCN_eval
+  model_params:
+    input_n: 10
+    joints: 22
+    output_n: 25
+    n_txcnn_layers: 4
+    txc_kernel_size: 3
+    reduction: 8
+    hidden_dim: 64
+    input_gcn:
+      model_complexity:
+        - 32
+        - 32
+        - 32
+        - 32
+      interpretable:
+        - true
+        - true
+        - true
+        - true
+        - true
+    output_gcn:
+      model_complexity:
+        - 3
+      interpretable:
+        - true
+    clipping: 15
+learning_config:
+  dropout: 0.1
+  normalize: false
+environment_config:
+  actions: all
+  evaluate_from: 0
+  is_norm: true
+  job: 0
+  sample_rate: 2
+  return_all_joints: true
+  save_grads: false
+  test_batch: 256
+  train_batch: 256
+general_config:
+  data_dir: data/ann_h3.6m/
+  load_model_path: 'logdir/cist_gcn_results/h36m/32/20221111_1223-id0734_best/files/STSGCN-benchmark-20221111_1223-id0734_best.pth.tar'
+  experiment_name: arch-tests
+  log_path: logdir/
+  model_name_rel_path: STSGCN-benchmark
+  save_all_intermediate_models: false
+  save_models: true
+  tensorboard:
+    num_mesh: 4
+evaluation_config:
+  outputs_path: "human-motion-prediction/logdir/data-analysis/"
+  sets:
+    - original_test:
+        classes:
+          - "walking"
+        index: # If indexes were not provided. All data from the set will be processed.
+          # - 13
+          - 189
+        joints: # Not strictly the same name.
+          - "R_Wrist_End"
+          - "L_Wrist_End"
+          - "LeftFoot"
+          - "RightFoot"
+          - "Head"
+        plot_model_prediction: true
+        evaluate: # Write here which type of data analysis you want to perform.
+          index:
+            physical: #  pose, velocity, acceleration, angle
+              # absolute:
+              #   pose: 
+              #   velocity: # define parameters locally or globally
+              #     ylim: 
+              #       - -1
+              #       - 50
+              #   acceleration:
+              #     ylim: 
+              #       - -1
+              #       - 100
+              #   angle:
+              #     ylim:
+              #       - -1
+              #       - 1.25
+              relative:
+                #   pose:
+                #   velocity:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #   acceleration:
+                #     ylim:
+                #       - -1
+                #       - 600
+                angle:
+                  ylim:
+                    - -0.01
+                    - 0.25
+              fig_size: # Every figure size in this block
+                - 16
+                - 2
+              global_config: # Specific has predominance over global setting.
+                module: "norm"
+            model_output:
+              - "excel_path"
+              - "interpretation_path"
+            funtion_to_call_extra_analysis: # write here exactly the name of the function you want to call.
+              - print_test: ""  # inside arguments: **args that are not present in the YAML file
+          set:
+            funtion_to_call_extra_analysis: # write here exactly the name of the function you want to call.
+              - tsne: # inside arguments: **args that are not present in the YAML file
+                  perplexity: 50
+              - temporal_cumulative_error: # inside arguments: **args that are not present in the YAML file
+                  path: "excel_path"
+              - analysis_on_interpretations: # inside arguments: **args that are not present in the YAML file
+                  path: "interpretation_path"
+    - original_test:
+        classes:
+          - "eating"
+        index: # If indexes were not provided. All data from the set will be processed.
+          # - 1
+          - 31
+        joints: # Not strictly the same name.
+          - "R_Wrist_End"
+          - "L_Wrist_End"
+          - "LeftFoot"
+          - "RightFoot"
+          - "Head"
+        plot_model_prediction: true
+        evaluate: # Write here which type of data analysis you want to perform.
+          index:
+            physical: #  pose, velocity, acceleration, angle
+              # absolute:
+              #   pose: 
+              #   velocity: # define parameters locally or globally
+              #     ylim: 
+              #       - -1
+              #       - 50
+              #     module: "norm"
+              #   acceleration:
+              #     ylim: 
+              #       - -1
+              #       - 100
+              #     module: "norm"
+              #   angle:
+              #     ylim:
+              #       - -1
+              #       - 1.25
+              #     module: "norm"
+              relative:
+                #   pose:
+                #   velocity:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                #   acceleration:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                angle:
+                  ylim:
+                    - -0.01
+                    - 0.25
+                  module: "norm"
+              fig_size: # Every figure size in this block
+                - 16
+                - 2
+    - original_test:
+        classes:
+          - "smoking"
+        index:
+          # - 32
+          - 178
+        joints: # Not strictly the same name.
+          - "R_Wrist_End"
+          - "L_Wrist_End"
+          - "LeftFoot"
+          - "RightFoot"
+          - "Head"
+        plot_model_prediction: true
+        evaluate: # Write here which type of data analysis you want to perform.
+          index:
+            physical: #  pose, velocity, acceleration, angle
+              # absolute:
+              #   pose: 
+              #   velocity: # define parameters locally or globally
+              #     ylim: 
+              #       - -1
+              #       - 50
+              #     module: "norm"
+              #   acceleration:
+              #     ylim: 
+              #       - -1
+              #       - 100
+              #     module: "norm"
+              #   angle:
+              #     ylim:
+              #       - -1
+              #       - 1.25
+              #     module: "norm"
+              relative:
+                #   pose:
+                #   velocity:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                #   acceleration:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                angle:
+                  ylim:
+                    - -0.01
+                    - 0.25
+                  module: "norm"
+              fig_size: # Every figure size in this block
+                - 16
+                - 2
+    - original_test:
+        classes:
+          - "discussion"
+        index:
+          # - 19
+          - 142
+        joints: # Not strictly the same name.
+          - "R_Wrist_End"
+          - "L_Wrist_End"
+          - "LeftFoot"
+          - "RightFoot"
+          - "Head"
+        plot_model_prediction: true
+        evaluate: # Write here which type of data analysis you want to perform.
+          index:
+            physical: #  pose, velocity, acceleration, angle
+              # absolute:
+              #   pose: 
+              #   velocity: # define parameters locally or globally
+              #     ylim: 
+              #       - -1
+              #       - 50
+              #     module: "norm"
+              #   acceleration:
+              #     ylim: 
+              #       - -1
+              #       - 100
+              #     module: "norm"
+              #   angle:
+              #     ylim:
+              #       - -1
+              #       - 1.25
+              #     module: "norm"
+              relative:
+                #   pose:
+                #   velocity:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                #   acceleration:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                angle:
+                  ylim:
+                    - -0.01
+                    - 0.25
+                  module: "norm"
+              fig_size: # Every figure size in this block
+                - 16
+                - 2
+    - original_test:
+        classes:
+          - "directions"
+        index:
+          # - 7
+          - 93
+        joints: # Not strictly the same name.
+          - "R_Wrist_End"
+          - "L_Wrist_End"
+          - "LeftFoot"
+          - "RightFoot"
+          - "Head"
+        plot_model_prediction: true
+        evaluate: # Write here which type of data analysis you want to perform.
+          index:
+            physical: #  pose, velocity, acceleration, angle
+              # absolute:
+              #   pose: 
+              #   velocity: # define parameters locally or globally
+              #     ylim: 
+              #       - -1
+              #       - 50
+              #     module: "norm"
+              #   acceleration:
+              #     ylim: 
+              #       - -1
+              #       - 100
+              #     module: "norm"
+              #   angle:
+              #     ylim:
+              #       - -1
+              #       - 1.25
+              #     module: "norm"
+              relative:
+                #   pose:
+                #   velocity:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                #   acceleration:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                angle:
+                  ylim:
+                    - -0.01
+                    - 0.25
+                  module: "norm"
+              fig_size: # Every figure size in this block
+                - 16
+                - 2
+    - original_test:
+        classes:
+          - "posing"
+        index:
+          # - 181
+          - 249
+        joints: # Not strictly the same name.
+          - "R_Wrist_End"
+          - "L_Wrist_End"
+          - "LeftFoot"
+          - "RightFoot"
+          - "Head"
+        plot_model_prediction: true
+        evaluate: # Write here which type of data analysis you want to perform.
+          index:
+            physical: #  pose, velocity, acceleration, angle
+              # absolute:
+              #   pose: 
+              #   velocity: # define parameters locally or globally
+              #     ylim: 
+              #       - -1
+              #       - 50
+              #     module: "norm"
+              #   acceleration:
+              #     ylim: 
+              #       - -1
+              #       - 100
+              #     module: "norm"
+              #   angle:
+              #     ylim:
+              #       - -1
+              #       - 1.25
+              #     module: "norm"
+              relative:
+                #   pose:
+                #   velocity:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                #   acceleration:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                angle:
+                  ylim:
+                    - -0.01
+                    - 0.25
+                  module: "norm"
+              fig_size: # Every figure size in this block
+                - 16
+                - 2
+    - original_test:
+        classes:
+          - "purchases"
+        index:
+          # - 215
+          - 8
+        joints: # Not strictly the same name.
+          - "R_Wrist_End"
+          - "L_Wrist_End"
+          - "LeftFoot"
+          - "RightFoot"
+          - "Head"
+        plot_model_prediction: true
+        evaluate: # Write here which type of data analysis you want to perform.
+          index:
+            physical: #  pose, velocity, acceleration, angle
+              # absolute:
+              #   pose: 
+              #   velocity: # define parameters locally or globally
+              #     ylim: 
+              #       - -1
+              #       - 50
+              #     module: "norm"
+              #   acceleration:
+              #     ylim: 
+              #       - -1
+              #       - 100
+              #     module: "norm"
+              #   angle:
+              #     ylim:
+              #       - -1
+              #       - 1.25
+              #     module: "norm"
+              relative:
+                #   pose:
+                #   velocity:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                #   acceleration:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                angle:
+                  ylim:
+                    - -0.01
+                    - 0.25
+                  module: "norm"
+              fig_size: # Every figure size in this block
+                - 16
+                - 2
+    - original_test:
+        classes:
+          - "sittingdown"
+        index:
+          # - 187
+          - 109
+        joints: # Not strictly the same name.
+          - "R_Wrist_End"
+          - "L_Wrist_End"
+          - "LeftFoot"
+          - "RightFoot"
+          - "Head"
+        plot_model_prediction: true
+        evaluate: # Write here which type of data analysis you want to perform.
+          index:
+            physical: #  pose, velocity, acceleration, angle
+              # absolute:
+              #   pose: 
+              #   velocity: # define parameters locally or globally
+              #     ylim: 
+              #       - -1
+              #       - 50
+              #     module: "norm"
+              #   acceleration:
+              #     ylim: 
+              #       - -1
+              #       - 100
+              #     module: "norm"
+              #   angle:
+              #     ylim:
+              #       - -1
+              #       - 1.25
+              #     module: "norm"
+              relative:
+                #   pose:
+                #   velocity:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                #   acceleration:
+                #     ylim:
+                #       - -1
+                #       - 600
+                #     module: "norm"
+                angle:
+                  ylim:
+                    - -0.01
+                    - 0.25
+                  module: "norm"
+              fig_size: # Every figure size in this block
+                - 16
+                - 2
+            model_output:
+              - "excel_path"
+              - "interpretation_path"
+            funtion_to_call_extra_analysis: # write here exactly the name of the function you want to call.
+              - print_test: ""  # inside arguments: **args that are not present in the YAML file
+          set:
+            funtion_to_call_extra_analysis: # write here exactly the name of the function you want to call.
+              - tsne: # inside arguments: **args that are not present in the YAML file
+                  perplexity: 50
+              - temporal_cumulative_error: # inside arguments: **args that are not present in the YAML file
+                  path: "excel_path"
+              - analysis_on_interpretations: # inside arguments: **args that are not present in the YAML file
+                  path: "interpretation_path"
+        # visualization: # remove this to remove GIF generation
+        #   repeat: 2 # number of times that the figure will be repeated.
+        #   mode: "single" # single or multi
+        #   plot_joints: true # plot joint number of figure
+  visualization: # remove this to remove GIF generation
+    repeat: 2 # number of times that the figure will be repeated.
+    mode: "single" # single or multi
+    plot_joints: true # plot joint number of figure
+meta_config:
+  comment: Testing a new architecture based on STSGCN paper.
+  project: Attention
+  task: 3d keypoint prediction
+  version: 0.1.1

@@ -1,0 +1,212 @@
+architecture_config:
+  model: CISTGCN_eval
+  model_params:
+    input_n: 10
+    joints: 22
+    output_n: 25
+    n_txcnn_layers: 4
+    txc_kernel_size: 3
+    reduction: 8
+    hidden_dim: 64
+    input_gcn:
+      model_complexity:
+        - 32
+        - 32
+        - 32
+        - 32
+      interpretable:
+        - true
+        - true
+        - true
+        - true
+        - true
+    output_gcn:
+      model_complexity:
+        - 3
+      interpretable:
+        - true
+    clipping: 15
+general_config:
+  data_dir: data/ann_h3.6m/
+  experiment_name: benchmark
+  load_model_path: 'ckpts/32/files/CISTGCN-benchmark-best.pth.tar'
+  log_path: logdir/
+  model_name_rel_path: CISTGCN-benchmark
+  save_all_intermediate_models: false
+  save_models: true
+  tensorboard:
+    num_mesh: 4
+learning_config:
+  WarmUp: 200
+  normalize: false
+  dropout: 0.1
+  weight_decay: 0
+  epochs: 50
+  lr: 0.01
+  #  max_norm: 3
+  scheduler:
+    type: StepLR
+    params:
+      step_size: 14000
+      gamma: 0.1
+  loss:
+    weights: ""
+    type: "mpjpe"
+evaluation_config:
+  outputs_path: "" # if empty uses the model path as default (replacing everything inside) 
+  # mode:
+  #   type: "paper"
+  #   input_n: 10
+  #   times:
+  #     - 1
+  #     - 3
+  #     - 7
+  #     - 9
+  #     - 13
+  #     - 17
+  #     - 21
+  #     - 24
+  #   visualization:
+  #     repeat: 1
+  #     mode: "single"
+  #     plot_joints: false
+  #     view:
+  #       - 20
+  #       - 180
+  #     hide_grid: true
+  #     colors: # MUST BE TWO OPTIONS IN THE LIST
+  #       - "c" # Target
+  #       - "r" # Prediction
+  sets: # please avoid to use classes: "all" to have a interesting analysis.
+    # split dbs and classes into objects as below
+    # - original_test:
+    #     classes:
+    #       - "walking"
+    #     index:
+    #       - 13
+    #       - 189
+    #     visualization:
+    #       repeat: 2
+    #       mode: "single"
+    #       plot_joints: true
+    # - original_test:
+    #     classes:
+    #       - "eating"
+    #     index:
+    #       - 1
+    #       - 31
+    #     visualization:
+    #       repeat: 2
+    #       mode: "single"
+    #       plot_joints: true
+    - original_test:
+        classes:
+          - "smoking"
+        index:
+          - 32
+          - 178
+        visualization:
+          repeat: 2
+          mode: "single"
+          plot_joints: true
+    - original_test:
+        classes:
+          - "discussion"
+        index:
+          - 19
+          - 142
+        visualization:
+          repeat: 2
+          mode: "single"
+          plot_joints: true
+    - original_test:
+        classes:
+          - "directions"
+        index:
+          - 7
+          - 93
+        visualization:
+          repeat: 2
+          mode: "single"
+          plot_joints: true
+    - original_test:
+        classes:
+          - "posing"
+        index:
+          - 181
+          - 249
+        visualization:
+          repeat: 2
+          mode: "single"
+          plot_joints: true
+    - original_test:
+        classes:
+          - "purchases"
+        index:
+          - 215
+          - 8
+        visualization:
+          repeat: 2
+          mode: "single"
+          plot_joints: true
+    - original_test:
+        classes:
+          - "sittingdown"
+        index:
+          - 187
+          - 109
+        visualization:
+          repeat: 2
+          mode: "single"
+          plot_joints: true
+  interpretation: # If the layer does not exist, a warning message will appear in front of you.
+    layers:
+      - "context_layer.joints"
+      - "context_layer.displacements"
+      - "context_layer.seq_joints_n"
+      - "context_layer.seq_joints_dims"
+      - "st_gcnns.0.dsgn.Adj"
+      - "st_gcnns.0.tsgn.Adj"
+      - "st_gcnns.0.w1"
+      - "st_gcnns.0.w2"
+      - "st_gcnns.1.dsgn.Adj"
+      - "st_gcnns.1.tsgn.Adj"
+      - "st_gcnns.1.w1"
+      - "st_gcnns.1.w2"
+      - "st_gcnns.2.dsgn.Adj"
+      - "st_gcnns.2.tsgn.Adj"
+      - "st_gcnns.2.w1"
+      - "st_gcnns.2.w2"
+      - "st_gcnns.3.dsgn.Adj"  # Depends on the network model size
+      - "st_gcnns.3.tsgn.Adj"  # Depends on the network model size
+      - "st_gcnns.3.w1"  # Depends on the network model size
+      - "st_gcnns.3.w2"  # Depends on the network model size
+      - "st_gcnns.4.dsgn.Adj"  # Depends on the network model size
+      - "st_gcnns.4.tsgn.Adj"  # Depends on the network model size
+      - "st_gcnns.4.w1"  # Depends on the network model size
+      - "st_gcnns.4.w2"  # Depends on the network model size
+      - "st_gcnns_o.0.dsgn.Adj"
+      - "st_gcnns_o.0.tsgn.Adj"
+      - "st_gcnns_o.0.w1"
+      - "st_gcnns_o.0.w2"
+      - "st_gcnns_o.1.dsgn.Adj"  # Depends on the network model size
+      - "st_gcnns_o.1.tsgn.Adj"  # Depends on the network model size
+      - "st_gcnns_o.1.w1"  # Depends on the network model size
+      - "st_gcnns_o.1.w2"  # Depends on the network model size
+      # Extras but sot no interpretable ones.
+      - "context_layer.seq_joints_dims"
+environment_config:
+  actions: all
+  evaluate_from: 0
+  is_norm: true
+  job: 0
+  sample_rate: 2
+  return_all_joints: true
+  save_grads: false
+  test_batch: 64
+  train_batch: 64
+meta_config:
+  comment: Testing a new architecture based on CISTGCN paper.
+  project: Attention
+  task: 3d keypoint prediction
+  version: 0.1.1

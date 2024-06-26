@@ -1,0 +1,55 @@
+general_config:
+  model_name: CISTGCN
+  model_file_path: logdir/CISTGCN/files/STSGCN-benchmark-20221111_1223-id0734_best.pth.tar
+  evaluation_path: ./evaluate.py
+  robustness_test_config_path: ./config/CISTGCN/local_eval_robustness_test.yaml
+evaluation_config:
+  - name: rotation
+    x: [ 0, 360, 37 ] # initial, final values, step size
+    y: [ 0, 360, 37 ]
+    z: [ 0, 360, 37 ]
+    continuous: false
+    keep: false
+    seq_idx: ""
+    # seq_idx: [3, 7]
+  - name: scale
+    x: [ 1, 1.5, 26 ]
+    y: [ 1, 1.5, 26 ]
+    z: [ 1, 1.5, 26 ]
+    continuous: false
+    keep: false
+    seq_idx: ""
+    # seq_idx: [3, 7]
+  - name: noise
+    x: [ 0, 0.2, 21 ]
+    continuous: false
+    keep: false
+    seq_idx: ""
+    # seq_idx: [3, 7]
+  - name: translation
+    x: [ 0, 1, 21 ]
+    y: [ 0, 1, 21 ]
+    z: [ 0, 1, 21 ]
+    continuous: false
+    keep: false
+    seq_idx: ""
+    # seq_idx: [3, 7]
+  - name: flip
+    cond_x: true
+    cond_y: true
+    cond_z: true
+    keep: true
+    seq_idx: ""
+    # seq_idx: [3, 7]
+  - name: posinvers
+    keep: true
+    seq_idx: ""
+template_config:
+  continuous: false
+  keep: false
+  return_init_pos: false
+  prob_threshold: 0.0
+  seq_idx: ""
+  x: 0
+  y: 0
+  z: 0

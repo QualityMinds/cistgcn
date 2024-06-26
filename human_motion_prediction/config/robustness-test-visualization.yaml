@@ -1,0 +1,29 @@
+visualization_config:
+  model_names: [ 'CISTGCN', 'MotionMixer', 'PGBIG', 'STS-GCN' ]
+  robustness_test_folder_path: [ 'logdir/CISTGCN/massive_tests/robustness_test', 'logdir/MotionMixer/massive_tests/robustness_test', 'logdir/PGBIG/massive_tests/robustness_test', 'logdir/STSGCN/massive_tests/robustness_test' ]
+  robustness_test: [ 'rotationx', 'rotationy', 'rotationz', 'noise', 'scalex', 'scaley', 'scalez', 'translationx', 'translationy', 'translationz' ]
+  mode: 'average_error' # average_error or frame_wise_error
+  robustness_test_value: # average_error # linspace: [start, end, step_size]
+    - [ 0, 360, 37 ]
+    - [ 0, 360, 37 ]
+    - [ 0, 360, 37 ]
+    - [ 0, 0.2, 21 ]
+    - [ 1, 1.5, 26 ]
+    - [ 1, 1.5, 26 ]
+    - [ 1, 1.5, 26 ]
+    - [ 0, 1, 21 ]
+    - [ 0, 1, 21 ]
+    - [ 0, 1, 21 ]
+  # mode: 'frame_wise_error'
+  # robustness_test_value: # frame_wise_error
+  #   - 90.00
+  #   - 90.00
+  #   - 90.00
+  #   - 0.05
+  #   - 1.20
+  #   - 1.20
+  #   - 1.20
+  #   - 0.20
+  #   - 0.20
+  #   - 0.20
+  conditions: ''

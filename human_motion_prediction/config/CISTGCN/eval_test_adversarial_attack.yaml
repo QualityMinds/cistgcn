@@ -1,0 +1,95 @@
+architecture_config:
+  model: CISTGCN_eval
+  model_params:
+    clipping: 15
+    hidden_dim: 64
+    input_gcn:
+      interpretable:
+        - true
+        - true
+        - true
+        - true
+        - true
+      model_complexity:
+        - 32
+        - 32
+        - 32
+        - 32
+    input_n: 10
+    joints: 22
+    n_txcnn_layers: 4
+    output_gcn:
+      interpretable:
+        - true
+      model_complexity:
+        - 3
+    output_n: 25
+    reduction: 8
+    txc_kernel_size: 3
+general_config:
+  data_dir: ../data/ann_h3.6m/
+  experiment_name: benchmark
+  load_model_path: 'ckpts/32/files/CISTGCN-benchmark-best.pth.tar'
+  log_path: logdir/
+  model_name_rel_path: CISTGCN-benchmark
+  save_all_intermediate_models: false
+  save_models: true
+  tensorboard:
+    num_mesh: 4
+learning_config:
+  WarmUp: 100
+  normalize: false
+  dropout: 0.1
+  weight_decay: 1e-4
+  epochs: 50
+  lr: 0.01
+  #  max_norm: 3
+  scheduler:
+    type: StepLR
+    params:
+      step_size: 1100
+      gamma: 0.8
+  loss:
+    weights: ""
+    type: "mpjpe"
+evaluation_config:
+  outputs_path: "logdir/h36m/32/20221111_1223-id0734_best/massive_tests/adversarial_attack_FGSM/" # if empty uses the model path as default (replacing everything inside) 
+  sets:
+    - original_test:
+        extension_path: "_FGSM_" # write here the name you need. Otherwise, emphy for default name.
+        classes:
+          - "all"
+        evaluate:
+          - metrics
+          # - samples
+        adversarial_attack: # set here one attack with init param values.
+          # DeepFool: # typ_eval is an optional metric to use.
+          #   fool_rate: 0.1
+          #   overshoot: 0.02
+          #   max_iter: 50
+          FGSM:
+            # iterations: 100
+            epsilon: 0.001
+            joints:
+            frames:
+        # visualization:
+        #   action_batch_samples: 2 # plot number of 2 samples per action batch. HINT: every figure could take a time.
+        #   repeat: 2 # number of times that the figure will be repeated.
+        #   mode: "single" # single or multi
+        #   plot_joints: true # plot joint number of figure
+environment_config:
+  actions: all
+  protocol: "pro3" # 'pro1: common action split;  0-6: single action split; pro3: unseen action split'
+  evaluate_from: 0
+  is_norm: true
+  job: 0
+  sample_rate: 2
+  return_all_joints: true
+  save_grads: false
+  test_batch: 256
+  train_batch: 256
+meta_config:
+  comment: Adding Benchmarking for H3.6M, AMASS, CMU and 3DPW, ExPI on our new architecture
+  project: Attention
+  task: 3d motion prediction on 18, 22 and 25 joints testing on 18 and 32 joints
+  version: 0.1.3

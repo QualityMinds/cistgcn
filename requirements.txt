@@ -1,0 +1,22 @@
+numpy
+progress
+pandas
+# matplotlib # issues on PyQT5 inside the DOCKER
+tqdm
+imageio
+pyyaml
+cython
+scipy
+tensorboardX
+termcolor
+tensorboard # Due conflict in package versioning.
+tensorboardX
+#### Install them for analysis, not necessary for training or inference. ####
+seaborn
+openpyxl
+xlsxwriter
+scikit-learn
+einops
+six
+h5py
+fvcore

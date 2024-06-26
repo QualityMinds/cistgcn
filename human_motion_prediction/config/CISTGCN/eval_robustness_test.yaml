@@ -1,0 +1,78 @@
+architecture_config:
+  model: CISTGCN_eval
+  model_params:
+    clipping: 15
+    hidden_dim: 64
+    input_gcn:
+      interpretable:
+        - true
+        - true
+        - true
+        - true
+        - true
+      model_complexity:
+        - 32
+        - 32
+        - 32
+        - 32
+    input_n: 10
+    joints: 22
+    n_txcnn_layers: 4
+    output_gcn:
+      interpretable:
+        - true
+      model_complexity:
+        - 3
+    output_n: 25
+    reduction: 8
+    txc_kernel_size: 3
+environment_config:
+  actions: all
+  evaluate_from: 0
+  is_norm: true
+  job: 0
+  return_all_joints: true
+  sample_rate: 2
+  save_grads: false
+  test_batch: 128
+  train_batch: 128
+evaluation_config:
+  outputs_path: ''
+  sets:
+    - original_test:
+        classes:
+          - all
+        evaluate:
+          - metrics
+        extension_path: ""
+        robustness_test: ""
+general_config:
+  data_dir: ../data/h3.6m/
+  experiment_name: benchmark
+  load_model_path: 'ckpts/32/files/CISTGCN-benchmark-best.pth.tar'
+  log_path: logdir/
+  model_name_rel_path: CISTGCN-benchmark
+  save_all_intermediate_models: false
+  save_models: true
+  tensorboard:
+    num_mesh: 4
+learning_config:
+  WarmUp: 200
+  dropout: 0.1
+  epochs: 50
+  loss:
+    type: mpjpe
+    weights: ''
+  lr: 0.01
+  normalize: false
+  scheduler:
+    params:
+      gamma: 0.1
+      step_size: 14000
+    type: StepLR
+  weight_decay: 0
+meta_config:
+  comment: Adding Benchmarking for H3.6M, AMASS, CMU and 3DPW on our new architecture
+  project: Attention
+  task: 3d motion prediction on 22-25 joints testing on 32 joints
+  version: 0.1.2
