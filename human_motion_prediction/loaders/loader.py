@@ -5,7 +5,6 @@ from ..environment import custom_transforms as trs
 import numpy as np
 import torch
 from ..loaders.amass_motion_3d import Amass_Motion3D
-from ..loaders.cmu_motion_3d import CMU_Motion3D, CMU_Motion3D_specific_mgcn
 from ..loaders.d3pw_motion_3d import D3PW_Motion3D
 from ..loaders.expi_motion_3d import ExPI_Motion3D
 from ..loaders.h36m_motion_3d import H36m_Motion3D
@@ -226,34 +225,6 @@ def get_h36m_dataset(split, transformations, opt, model, actions, return_all_joi
     return data_dataset, data_stats, input_n, output_n
 
 
-def get_cmu_dataset(split, transformations, opt, model, actions, return_all_joints=True, return_class=False):
-    data_stats, input_n, output_n, actions = get_meta_from_inputs("cmu", split, opt, actions, model)
-    if model == "mgcn":
-        dct_n = opt.architecture_config.model_params.dct_n
-        data_dataset = CMU_Motion3D_specific_mgcn(path_to_data=opt.general_config.data_dir,
-                                                  actions=actions,
-                                                  input_n=input_n, output_n=output_n,
-                                                  normalize=opt.learning_config.normalize,
-                                                  split="train", dct_n=dct_n,
-                                                  data_mean=data_stats["data_mean"],
-                                                  data_std=data_stats["data_std"],
-                                                  dim_used=data_stats["dim_used"],
-                                                  )
-    else:
-        data_dataset = CMU_Motion3D(path_to_data=opt.general_config.data_dir,
-                                    actions=actions,
-                                    input_n=input_n, output_n=output_n,
-                                    split=split, normalize=opt.learning_config.normalize,  # not done in online manner.
-                                    transform=transformations,
-                                    data_mean=data_stats["data_mean"],
-                                    data_std=data_stats["data_std"],
-                                    dim_used=data_stats["dim_used"],
-                                    return_all_joints=return_all_joints,
-                                    return_class=return_class,
-                                    )
-    return data_dataset, data_stats, input_n, output_n
-
-
 def get_loader(opt, split, model=None, **kwargs):
     # Get train split
     if not isinstance(split, str):
@@ -298,16 +269,7 @@ def get_loader(opt, split, model=None, **kwargs):
         return_all_joints = kwargs.get("return_all_joints")
     if kwargs.get("return_class") is not None:
         return_class = kwargs.get("return_class")
-    if "cmu" in opt.general_config.data_dir.lower():
-        data_dataset, data_stats, input_n, output_n = get_cmu_dataset(split,
-                                                                      transformations,
-                                                                      opt,
-                                                                      model,
-                                                                      kwargs.get("actions"),
-                                                                      return_all_joints=return_all_joints,
-                                                                      return_class=return_class)
-        db = "cmu"
-    elif "h3.6m" in opt.general_config.data_dir.lower() or "h36m" in opt.general_config.data_dir.lower():
+    if "h3.6m" in opt.general_config.data_dir.lower() or "h36m" in opt.general_config.data_dir.lower():
         data_dataset, data_stats, input_n, output_n = get_h36m_dataset(split,
                                                                        transformations,
                                                                        opt,

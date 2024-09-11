@@ -11,7 +11,7 @@ from . import loaders
 from .models import choose_net as net
 from .utils import yaml_utils
 
-CURR_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
+CURR_DIR = Path(os.path.dirname(os.path.abspath(__file__))).parent  # path correction to parent
 
 
 def main(args, opt):

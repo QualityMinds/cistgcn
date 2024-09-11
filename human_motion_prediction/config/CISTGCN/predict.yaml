@@ -27,7 +27,7 @@ architecture_config:
         - true
     clipping: 15
 general_config:
-  data_dir: data/ann_h3.6m/
+  data_dir: ../data/ann_h3.6m/
   experiment_name: benchmark
   load_model_path: 'ckpts/32/files/CISTGCN-benchmark-best.pth.tar'
   log_path: logdir/
