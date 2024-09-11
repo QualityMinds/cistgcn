@@ -37,13 +37,33 @@ and predict need the binary model and data paths. Nevertheless, data-analysis ma
 The files are:
 
 ```
-bin/train.py  # For training
-bin/evaluate.py  # Perform a more sophisticated evaluation table
-bin/predict.py  # Predict motion on a set of input indexes. Also useful for interpretability
+bin/train.py  # For model training
+bin/evaluate.py  # Perform a more sophisticated evaluation excel tables
+bin/predict.py  # Predict motion on a set of input (by index). Also useful for interpretability
 bin/data-analysis.py # [ongoing] A module to analyze the dataset and model outputs in a modular way like a tool.
 ```
 
 ## How to run
+To evaluate:
+
+`python3 -m human_motion_prediction.evaluate human_motion_prediction/config/CISTGCN/eval_h36m.yaml`
+
+To train:
+
+`python3 -m human_motion_prediction.train human_motion_prediction/config/CISTGCN/train_h36m.yaml`
+
+To predict (on H36M):
+
+`python3 -m human_motion_prediction.predict human_motion_prediction/config/CISTGCN/predict.yaml`
+
+Please: Note that path to the respective datasets and weights must be adapted.
+
+Most important sections in general_config: 
+`load_model_path` and `data_dir`
+
+The architecture changes depending on the number of joints. Then, we created evaluation YAML files for each dataset (AMASS and H36M).
+
+## More details
 
 All main files depend on a yaml file configuration. Check all of them independently to obtain detailed functionalities.
 
@@ -68,12 +88,12 @@ interpretable results.
 
 NOTE: Paths are difference in remote and local yaml files. This is the main difference between both.
 
-### Setup
+#### Setup
 
-To run evaluation and a single sample prediction. we need to first download the dataset and set it `repository-folder/data/{dataset}` and download the model files (tar format) from this link [download CISTGCN models](https://huggingface.co/QualityMinds/CISTGCN/tree/main), save them in `repository-folder/ckpts/{archtecture-configuration}`.
+To run evaluation and a single sample prediction. we need to first download the dataset and set it `repository-folder/data/{dataset}` and download the model files (tar format) from this link [download CISTGCN models](https://huggingface.co/QualityMinds/CISTGCN/), save them in `repository-folder/ckpts/{archtecture-configuration}`.
 the parameter `architecture-configuration` is described in the paper and set to 8, 16, 32, or 64.
 
-### Evaluation
+#### Evaluation
 
 To evaluate the model using specific a specific subset and optionally extract detailed Excel sheets file is possible just
 running the command at the end of the section for local testing:
@@ -110,7 +130,7 @@ evaluation_config:
 
 ```
 
-### Predict
+#### Predict
 
 If we want to run a model on a singular sample or few samples, we use the following command to set which subsets and
 indexes we want to process. Optionally, we are able to obtain the interpretability results from the CISTGCN model. Still
@@ -144,7 +164,7 @@ evaluation_config:
 ```
 
 
-### Train
+#### Train
 
 To train a model, just run the following command using the preferred configuration. Please, note that remote-x.yaml are
 already configured for this situation. Hyperparameter modification is a research topic and everything here is completely
@@ -155,7 +175,7 @@ python -m human_motion_prediction.train "config/CISTGCN/local.yaml"
 ```
 
 
-### Robustness test
+#### Robustness test
 
 The evaluate_robustness.py script is used to automatically generate evaluation results (.xlsx Excel files) in the
 eval_results folder. Before you run the script you need to save the trained models in the ```files``` directory. The
@@ -208,7 +228,7 @@ python -m human_motion_prediction.visualization_results "config/robustness-test-
 ```
 
 
-### Data analysis
+#### Data analysis
 
 In contrast to other YAML files, model is not required here to run the data analysis, so customization here is up to the
 person that is programming in this branch. Still this is an ongoing work.

@@ -2,7 +2,7 @@ architecture_config:
   model: CISTGCN_eval
   model_params:
     input_n: 10
-    joints: 22
+    joints: 18
     output_n: 25
     n_txcnn_layers: 4
     txc_kernel_size: 3
@@ -27,9 +27,9 @@ architecture_config:
         - true
     clipping: 15
 general_config:
-  data_dir: ../data/h3.6m/
+  data_dir: ../data/amass/
   experiment_name: benchmark
-  load_model_path: 'ckpts/32/files/CISTGCN-benchmark-best.pth.tar'
+  load_model_path: 'ckpts/CISTGCN_M32_AMASS.tar'
   log_path: logdir/
   model_name_rel_path: CISTGCN-benchmark
   save_all_intermediate_models: false
