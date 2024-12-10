@@ -264,6 +264,21 @@ def create_animation(output_path, data, mode=None, db="cmu",
                      hide_grid=False,
                      multi_pose_color_patch=0.2,
                      colors=None):
+    """
+    output_path (str): path to output animation file
+    data (list): data to plot
+    mode (str, optional): animation mode. Defaults to None.
+    db (str, optional): database name. Defaults to "cmu", "h36m", "amass". depending on skeleton type.
+    plot_joints (bool): Plot the number of joints in the animation. Defaults to False.
+    truncate_view (int, optional): truncate view. fixed values for the canvas size.
+    repeat (int, optional): number of times to repeat the animation. Defaults to 2. Recommended.
+    interval (int, optional): frame interval in seconds. Defaults to 250. Related to 'animation' lib.
+    dim_used (list, optional): variable to plot only the needed joints. Defaults to None and use standard config.
+    view (list, optional): view to plot (contains elev and azim values).
+    hide_grid (bool, optional): hide grid. Defaults to False.
+    multi_pose_color_patch (float, optional): used to defined colour spectrum in the plot.
+    colors (list, optional): list of colors in case we want specific colors for the plots.
+    """
     if colors is None:
         if len(data) < 3 and db != "expi":
             cmap = ["g", "r", "b"]
